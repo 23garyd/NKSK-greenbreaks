@@ -1,0 +1,23 @@
+name: gfb
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  # Geospatial stack (install from conda-forge so GDAL/PROJ/GEOS link correctly)
+  - geopandas
+  - rasterio
+  - shapely
+  - pyproj
+  - contextily
+  - mapclassify
+  # Data + plotting
+  - pandas
+  - numpy
+  - matplotlib
+  - openpyxl
+  # Step 1 scraper (optional)
+  - requests
+  - beautifulsoup4
+  # Jupyter
+  - jupyterlab
+  - ipykernel

@@ -1,7 +1,6 @@
-# Ignore everything by default
 /*
-
-# Except these
 !.gitignore
 !notebooks/
-!combined_notebook.ipynb
+!GreenFuelBreak_Pipeline.ipynb
+!environment.yml
+!README.md
