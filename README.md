@@ -1,3 +1,32 @@
+# NKSK Green Fuel Breaks — siting and cost pipeline
+
+The Python pipeline behind the **[NKSK Green Fuel Break planning tool](https://23garyd.github.io/nksk-fuelbreak-tool/)**.
+It scores candidate road segments in North Kona and South Kohala, on leeward Hawai'i Island, for
+green fuel break treatment against combined ecological and economic criteria, and writes the scored
+shapefiles, cost tables, and raster overlays that the browser tool serves.
+
+Research conducted as an ORISE fellow with the USDA Forest Service, Institute for Pacific Islands
+Forestry. First author on a manuscript in preparation.
+
+## What it produces
+
+- **280 candidate road segments** across 10 highways — 198 km (123 mi) of corridor and 1,188 ha
+  (~2,935 acres) of treatment area
+- **Per-segment drought probabilities** derived from 2000–2023 Hawai'i Climate Data Portal
+  wet-season rainfall, rather than one district-wide constant
+- **Native species suitability** for 20 species, modeled from NRCS climatic–elevation envelopes,
+  climatic water deficit, elevation, and potential/actual evapotranspiration rasters — scored into
+  low, medium and high palettes by elevation class
+- **Three-year implementation and maintenance cost models** at a 2% discount rate: 87.0M / 93.3M /
+  98.0M USD network-wide across the three palettes, covering 2.17M plants
+- Young lava substrate screened out of candidate segments
+
+## Stack
+
+Python · GeoPandas · Rasterio · Shapely · PyProj · pandas · NumPy · Matplotlib · JupyterLab
+
+---
+
 # Running GreenFuelBreak_Pipeline.ipynb (miniconda + JupyterLab)
 
 ## 0. What you need
@@ -12,9 +41,7 @@ Your project folder (`26X_GFB_Data/`) should contain:
 └── notebooks/                      <- the 5 original notebooks (not needed to run)
 ```
 
-The notebook auto-detects `inputs/` when you launch Jupyter **from this folder**, and it
-also has your `~/Desktop/26X_GFB_Data/inputs` path hard-coded as a fallback, so either way
-it will find the data.
+The notebook auto-detects `inputs/` when you launch Jupyter **from this folder**.
 
 ---
 
@@ -28,7 +55,6 @@ If "command not found", open the **Anaconda Prompt** (Windows) or run
 ## 2. Create the environment (one time)
 From inside the project folder:
 ```bash
-cd ~/Desktop/26X_GFB_Data
 conda env create -f environment.yml
 ```
 This makes a conda environment named **gfb** with the full geospatial stack
@@ -55,10 +81,8 @@ python -m ipykernel install --user --name gfb --display-name "Python (gfb)"
 
 ## 5. Launch JupyterLab from the project folder
 ```bash
-cd ~/Desktop/26X_GFB_Data
 jupyter lab
 ```
-This opens JupyterLab in your browser.
 
 ## 6. Open the notebook and pick the kernel
 1. In the file browser, open **GreenFuelBreak_Pipeline.ipynb**.
@@ -69,9 +93,8 @@ This opens JupyterLab in your browser.
 - Step 0 prints an "Input check" table. Every row should say `OK`. If any says
   `MISSING`, fix the path (see Troubleshooting) before continuing.
 
-That's it. Generated files (scored shapefile, CWD rasters/tables, watering CSV,
-cost CSV, and all maps) are written to a new **`gfb_outputs/`** folder inside the
-project folder.
+Generated files (scored shapefile, CWD rasters/tables, watering CSV, cost CSV, and all maps)
+are written to a new **`gfb_outputs/`** folder inside the project folder.
 
 ---
 
@@ -83,15 +106,14 @@ project folder.
   With no connection the maps still render (border, roads, colors), just without the
   topographic backdrop.
 - **The first code cell (0a) runs `pip install ...`.** Inside the `gfb` env everything
-  is already present, so pip just reports "already satisfied" and changes nothing. You
-  can comment that cell out if you prefer.
+  is already present, so pip just reports "already satisfied" and changes nothing.
 - **Re-running:** outputs overwrite cleanly. Safe to Run All again.
 
 ## Changing where inputs/outputs live
 Open the **master config** cell (Step 0b) and set the paths directly, e.g.:
 ```python
-INPUT_DIR  = "/Users/garyding/Desktop/26X_GFB_Data/inputs"
-OUTPUT_DIR = "/Users/garyding/Desktop/26X_GFB_Data/gfb_outputs"
+INPUT_DIR  = "/path/to/26X_GFB_Data/inputs"
+OUTPUT_DIR = "/path/to/26X_GFB_Data/gfb_outputs"
 ```
 
 ## Troubleshooting
